@@ -1,25 +1,26 @@
-import { useQuery } from '@tanstack/react-query';
-import { CountryListFilters, fetchCountries } from './api/countriesService';
+import React, { useCallback, useMemo } from 'react';
+import { CountryListFilters } from './api/countriesService';
 import './App.css';
 import CountriesTable from './components/countriesTable/CountriesTable';
-import CountriesTableFilters from './components/countriesTable/CountriesTableFilters';
-import { useState } from 'react';
+import CountriesTableSearch from './components/countriesTable/CountriesTableSearch';
+import { useCountries } from './hooks/useCountries';
+import { useCountrySearch } from './hooks/useCountrySearch';
+import { useFavourites } from './hooks/useFavourites';
 
 function App() {
-  const [searchFilter, setSearchFilter] =
-    useState<CountryListFilters['searchFilter']>('name');
-  const [searchText, setSearchText] =
-    useState<CountryListFilters['searchText']>('');
+  const { handleFavourite, isFavourite } = useFavourites();
+  const { filters, setSearchFilter, setSearchText } = useCountrySearch();
+  const { data, isFetching } = useCountries(filters);
 
-  const filters: CountryListFilters = {
-    searchFilter,
-    searchText,
-  };
+  const memoizedData = useMemo(() => data, [data]);
 
-  const { data, isFetching } = useQuery({
-    queryKey: ['countries', searchText],
-    queryFn: () => fetchCountries(filters),
-  });
+  const handleFiltersChange = useCallback(
+    (filters: CountryListFilters) => {
+      setSearchFilter(filters.searchFilter);
+      setSearchText(filters.searchText);
+    },
+    [setSearchFilter, setSearchText]
+  );
 
   return (
     <div className="App">
@@ -27,13 +28,14 @@ function App() {
         <h1>Countries</h1>
       </header>
       <div>
-        <CountriesTableFilters
-          onChange={(filters: CountryListFilters) => {
-            setSearchFilter(filters.searchFilter);
-            setSearchText(filters.searchText);
-          }}
-        />
-        {data && <CountriesTable countries={data} />}
+        <CountriesTableSearch onChange={handleFiltersChange} />
+        {memoizedData && (
+          <CountriesTable
+            countries={memoizedData}
+            isFavourite={isFavourite}
+            onFavouriteClick={handleFavourite}
+          />
+        )}
         {isFetching && <p>Loading...</p>}
       </div>
     </div>

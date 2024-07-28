@@ -1,4 +1,5 @@
 export type Country = {
+  cca2: string;
   name: {
     official: string;
   };

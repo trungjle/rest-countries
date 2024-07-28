@@ -8,27 +8,29 @@ export type CountryListFilters = {
   searchText?: string;
 };
 
-const getEndpoint = (searchFilter: string, search: string) => {
+const getEndpoint = (filterBy: string, search: string) => {
   const endpoints: { [key: string]: string } = {
     name: `/name/${search}`,
     currency: `/currency/${search}`,
     language: `/lang/${search}`,
   };
-  return endpoints[searchFilter] || '/all';
+  return endpoints[filterBy] || '/all';
 };
 
 export const fetchCountries = async (
-  filters: CountryListFilters
+  filters?: CountryListFilters
 ): Promise<Country[]> => {
-  const { searchText, searchFilter = 'name' } = filters;
+  const { searchText = '', searchFilter = 'name' } = filters || {};
 
-  const endpoint =
-    searchText && searchText.trim()
-      ? getEndpoint(searchFilter, searchText.trim())
-      : '/all';
+  const endpoint = searchText.trim()
+    ? getEndpoint(searchFilter, searchText.trim())
+    : '/all';
 
-  return await axios
-    .get(`${BASE_URL}${endpoint}`)
-    .then((response) => response.data)
-    .catch(() => []);
+  try {
+    const response = await axios.get(`${BASE_URL}${endpoint}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    return [];
+  }
 };

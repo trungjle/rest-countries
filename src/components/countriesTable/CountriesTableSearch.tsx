@@ -20,7 +20,7 @@ export default function CountriesTableFilters({
   }, [debouncedSearch, searchFilter]);
 
   return (
-    <div className="flex flex-row gap-2">
+    <div>
       <select
         value={searchFilter}
         onChange={(e) =>

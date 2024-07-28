@@ -1,11 +1,14 @@
-// import { useQuery } from '@tanstack/react-query';
-// import { fetchCountries } from '../api/countriesService';
+import { useQuery } from '@tanstack/react-query';
+import { CountryListFilters, fetchCountries } from '../api/countriesService';
 
-// export default function useCountries() {
-//   const { data, isLoading, isError } = useQuery({
-//     queryKey: ['countries'],
-//     queryFn: fetchCountries,
-//   });
+export const useCountries = (filters?: CountryListFilters) => {
+  const { data, isFetching } = useQuery({
+    queryKey: ['countries', filters],
+    queryFn: () => fetchCountries(filters),
+  });
 
-//   return { countries: data, loading: isLoading, error: isError };
-// }
+  return {
+    data,
+    isFetching,
+  };
+};
