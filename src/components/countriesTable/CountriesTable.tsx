@@ -1,4 +1,3 @@
-import React from 'react';
 import { ColDef } from 'ag-grid-community';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -22,6 +21,19 @@ const CountriesTable = ({
       field: 'name.official',
     },
     {
+      headerName: 'Flag',
+      cellRenderer: (params: { data: Country }) => {
+        const { flags, name } = params.data;
+        return flags.svg ? (
+          <img
+            src={flags.svg}
+            alt={`Flag of ${name.official}`}
+            style={{ width: '50px', height: 'auto' }}
+          />
+        ) : null;
+      },
+    },
+    {
       headerName: 'Capital',
       field: 'capital',
     },
@@ -29,6 +41,7 @@ const CountriesTable = ({
       headerName: 'Population',
       field: 'population',
     },
+
     {
       headerName: 'Currency',
       field: 'currency',
@@ -67,8 +80,10 @@ const CountriesTable = ({
     <div className="ag-theme-balham" style={{ height: '1000px' }}>
       <AgGridReact
         columnDefs={columnsDefs}
-        autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 400 }}
+        autoSizeStrategy={{ type: 'fitGridWidth' }}
         rowData={countries}
+        pagination={true}
+        paginationPageSize={50}
       />
     </div>
   );

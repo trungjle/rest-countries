@@ -1,30 +1,45 @@
-# React + TypeScript + Vite
+# Countries Table Application
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## Overview
 
-Currently, two official plugins are available:
+This app displays a list of countries with various attributes in a table format. Users can search for countries and mark their favorite countries.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+![App Screenshot](public/screenshot.png)
 
-## Expanding the ESLint configuration
+## Installation
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+### 1. Install the dependencies
 
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json', './tsconfig.app.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
+```
+npm install
+# or
+yarn install
 ```
 
-- Replace `plugin:@typescript-eslint/recommended` to `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`
-- Optionally add `plugin:@typescript-eslint/stylistic-type-checked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` & `plugin:react/jsx-runtime` to the `extends` list
+### 2. Start the client in development mode.
+
+```
+npm run dev
+# or
+yarn dev
+```
+
+### 3. Visit `http://localhost:5173/` to view the app.
+
+## React Libaries used
+
+- **@tanstack/react-query**: A library for fetching, caching, and updating server state in React applications.
+- **axios**: A promise-based HTTP client for making requests to APIs.
+- **typescript**: A typed superset of JavaScript that compiles to plain JavaScript.
+  vite: A build tool that provides a faster and leaner development experience for modern web projects.
+
+## Work In Progress
+
+- **Detailed Country View**: Add functionality to view detailed information for each country when selected.
+- **Enhanced Pagination**: Implement advanced pagination techniques using useInfiniteQuery from react-query and possibly react-intersection-observer for infinite scrolling.
+- **Code Refactoring**: Modularize and refactor code for better reusability and maintainability through compound components.
+- **Testing**: Introduce unit and integration tests using Jest, Vitest, or React Testing Library to ensure code quality and reliability.
+
+## License
+
+This project is licensed under the MIT License. See the LICENSE file for details.
