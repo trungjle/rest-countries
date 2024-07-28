@@ -6,13 +6,18 @@ import CountriesTableFilters from './components/countriesTable/CountriesTableFil
 import { useState } from 'react';
 
 function App() {
-  const [filters, setFilters] = useState<CountryListFilters>({
-    filterBy: 'name',
-    search: '',
-  });
+  const [searchFilter, setSearchFilter] =
+    useState<CountryListFilters['searchFilter']>('name');
+  const [searchText, setSearchText] =
+    useState<CountryListFilters['searchText']>('');
+
+  const filters: CountryListFilters = {
+    searchFilter,
+    searchText,
+  };
 
   const { data, isFetching } = useQuery({
-    queryKey: ['countries', filters],
+    queryKey: ['countries', searchText],
     queryFn: () => fetchCountries(filters),
   });
 
@@ -22,7 +27,12 @@ function App() {
         <h1>Countries</h1>
       </header>
       <div>
-        <CountriesTableFilters onChange={setFilters} />
+        <CountriesTableFilters
+          onChange={(filters: CountryListFilters) => {
+            setSearchFilter(filters.searchFilter);
+            setSearchText(filters.searchText);
+          }}
+        />
         {data && <CountriesTable countries={data} />}
         {isFetching && <p>Loading...</p>}
       </div>

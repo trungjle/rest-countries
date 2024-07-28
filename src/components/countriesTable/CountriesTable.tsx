@@ -1,5 +1,5 @@
 import React from 'react';
-import { ColDef, ValueGetterParams } from 'ag-grid-community';
+import { ColDef } from 'ag-grid-community';
 import { Country } from '../../types/country';
 import { AgGridReact } from 'ag-grid-react';
 import 'ag-grid-community/styles/ag-grid.css';
@@ -52,6 +52,7 @@ const CountriesTable = ({ countries }: CountriesTableProps) => {
   return (
     <div className="ag-theme-balham" style={{ height: '1000px' }}>
       <AgGridReact
+        masterDetail={true}
         columnDefs={columnsDefs}
         autoSizeStrategy={{ type: 'fitGridWidth', defaultMinWidth: 400 }}
         rowData={countries}

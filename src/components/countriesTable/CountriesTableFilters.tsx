@@ -9,21 +9,22 @@ type CountriesTableFiltersProps = {
 export default function CountriesTableFilters({
   onChange,
 }: CountriesTableFiltersProps) {
-  const [search, setSearch] = useState<CountryListFilters['search']>('');
-  const [filterBy, setFilterBy] =
-    useState<CountryListFilters['filterBy']>('name');
-  const debouncedSearch = useDebounce(search, 500);
+  const [searchText, setSearch] =
+    useState<CountryListFilters['searchText']>('');
+  const [searchFilter, setSearchFilter] =
+    useState<CountryListFilters['searchFilter']>('name');
+  const debouncedSearch = useDebounce(searchText, 500);
 
   useEffect(() => {
-    onChange({ filterBy, search: debouncedSearch });
-  }, [debouncedSearch, filterBy]);
+    onChange({ searchFilter, searchText: debouncedSearch });
+  }, [debouncedSearch, searchFilter]);
 
   return (
     <div className="flex flex-row gap-2">
       <select
-        value={filterBy}
+        value={searchFilter}
         onChange={(e) =>
-          setFilterBy(e.target.value as CountryListFilters['filterBy'])
+          setSearchFilter(e.target.value as CountryListFilters['searchFilter'])
         }
       >
         <option value="name">Name</option>
@@ -32,9 +33,9 @@ export default function CountriesTableFilters({
       </select>
       <input
         type="text"
-        value={search}
+        value={searchText}
         onChange={(e) => setSearch(e.target.value)}
-        placeholder={`Search by ${filterBy}`}
+        placeholder={`Search by ${searchFilter}`}
       />
     </div>
   );
